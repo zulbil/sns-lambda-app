@@ -35,6 +35,6 @@ const notifyHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 const process = middyfy(processHandler);
 const notify = middyfy(notifyHandler);
 
-export default { process, notify }
+export { process, notify }
 
 
