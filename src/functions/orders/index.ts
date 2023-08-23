@@ -2,7 +2,7 @@ import schema from './schema';
 import { handlerPath } from '@libs/handler-resolver';
 
 export const orderProcessor =  {
-  handler: `${handlerPath(__dirname)}/handler.main`,
+  handler: `${handlerPath(__dirname)}/handler.process`,
   events: [
     {
       http: {
@@ -19,7 +19,7 @@ export const orderProcessor =  {
 };
 
 export const orderNotifier = {
-  handler: `${handlerPath(__dirname)}/handler.main`,
+  handler: `${handlerPath(__dirname)}/handler.notify`,
   events: [
     {
       sns: {

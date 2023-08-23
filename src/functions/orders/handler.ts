@@ -4,11 +4,29 @@ import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
 
-const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
-  return formatJSONResponse({
-    message: `Hello ${event.body.name}, welcome to the exciting Serverless world!`,
-    event,
-  });
-};
+export const process: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyfy(async (event) => {
+  try {
+    return formatJSONResponse({
+      'message': 'Order process',
+      event
+    });
+  } catch (error) {
+    return formatJSONResponse({
+      message : error.message
+    }, 500); 
+  }
+});
 
-export const main = middyfy(hello);
+
+export const notify: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyfy(async (event) => {
+  try {
+    return formatJSONResponse({
+      'message': 'Order process',
+      event
+    });
+  } catch (error) {
+    return formatJSONResponse({
+      message : error.message
+    }, 500); 
+  }
+});
