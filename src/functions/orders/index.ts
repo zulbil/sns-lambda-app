@@ -11,11 +11,11 @@ export const orderProcessor =  {
         request: {
           schemas: {
             'application/json': schema,
-          },
-        },
-      },
-    },
-  ],
+          }
+        }
+      }
+    }
+  ]
 };
 
 export const orderNotifier = {
@@ -25,6 +25,6 @@ export const orderNotifier = {
       sns: {
         topicName: 'OrderNotifications'
       }
-    },
-  ],
+    }
+  ]
 };
