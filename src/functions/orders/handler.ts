@@ -4,7 +4,7 @@ import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
 
-export const process: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyfy(async (event) => {
+const processHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     return formatJSONResponse({
       'message': 'Order process',
@@ -15,10 +15,10 @@ export const process: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyf
       message : error.message
     }, 500); 
   }
-});
+};
 
 
-export const notify: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyfy(async (event) => {
+const notifyHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     return formatJSONResponse({
       'message': 'Order process',
@@ -29,4 +29,12 @@ export const notify: ValidatedEventAPIGatewayProxyEvent<typeof schema> = middyfy
       message : error.message
     }, 500); 
   }
-});
+};
+
+
+const process = middyfy(processHandler);
+const notify = middyfy(notifyHandler);
+
+export default { process, notify }
+
+
