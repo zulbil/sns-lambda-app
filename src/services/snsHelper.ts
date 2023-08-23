@@ -1,12 +1,13 @@
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 
 const snsClient = new SNSClient({ region: 'us-east-1' }); // Set your desired region
+const TopicArn = 'arn:aws:sns:us-east-1:864500403850:OrderNotifications';
 
-export const publishToSNS = async (topicArn: string, message: string): Promise<void> => {
+export const publishToSNS = async (Message: string): Promise<void> => {
   try {
     const snsParams = {
-      TopicArn: topicArn,
-      Message: message,
+      TopicArn,
+      Message
     };
 
     const publishCommand = new PublishCommand(snsParams);
