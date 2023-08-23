@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import hello from '@functions/hello';
+import { orderNotifier, orderProcessor } from '@functions/orders';
 
 const serverlessConfiguration: AWS = {
   service: 'sns-lambda-app',
@@ -19,7 +19,16 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { hello },
+  functions: { 
+    orderNotifier: {
+      ...orderNotifier,
+      role: 'OrderProcessorRole'
+    },
+    orderProcessor: {
+      ...orderProcessor,
+      role: 'OrderProcessorRole'
+    }
+  },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -33,6 +42,58 @@ const serverlessConfiguration: AWS = {
       concurrency: 10,
     },
   },
+  resources: {
+    Resources: {
+      OrderNotifications: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          DisplayName: 'Order Notifications'
+        }
+      },
+      OrderProcessorRole: {
+        Type: 'AWS::IAM::Role',
+        Properties: {
+          RoleName: 'OrderProcessorRole',
+          AssumeRolePolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: {
+                  Service: 'lambda.amazonaws.com',
+                },
+                Action: 'sts:AssumeRole'
+              }
+            ]
+          },
+          Policies: [
+            {
+              PolicyName: 'OrderProcessorPolicy',
+              PolicyDocument: {
+                Version: '2012-10-17',
+                Statement: [
+                  {
+                    Effect: 'Allow',
+                    Action: ['sns:Publish'],
+                    Resource: ['*']
+                  },
+                  {
+                    Effect: "Allow",
+                    Action: [
+                      "logs:CreateLogGroup",
+                      "logs:CreateLogStream",
+                      "logs:PutLogEvents"
+                    ],
+                    Resource: ["arn:aws:logs:*:*:*"]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
 };
 
 module.exports = serverlessConfiguration;
