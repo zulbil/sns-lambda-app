@@ -23,10 +23,8 @@ export const orderNotifier = {
   events: [
     {
       sns: {
-        topicName: {
-          Ref: 'OrderNotifications'
-        }
-      },
+        topicName: 'OrderNotifications'
+      }
     },
   ],
 };
