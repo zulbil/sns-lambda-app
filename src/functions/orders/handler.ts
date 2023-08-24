@@ -37,14 +37,19 @@ const processHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
 };
 
 
-export const notify = async (event: SNSEvent) => {
+export const notify = async (event: SNSEvent): Promise<void> => {
   try {
     const record: SNSEventRecord = event.Records[0];
     logger.info('Reading event', { event })
-    
+
     const message = JSON.parse(record.Sns.Message);
 
-    logger.info('Reading message to SNS', { message })
+    const orderStatus = message.orderStatus
+    const PhoneNumber = message.phoneNumber
+
+    await publishToSNS(`Your order status : ${orderStatus}`)
+
+    logger.info('SMS notiffication sent successfully');
     
   } catch (error) {
     logger.error('Error occured', { error }) 
