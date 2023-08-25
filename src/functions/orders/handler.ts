@@ -14,19 +14,21 @@ const processHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
 
     logger.info('Receiving body parameters', { body: request });
 
-    const Message = JSON.stringify({
+    const data = {
       id: Date.now(),
       orderStatus: 'Shipped',
       phoneNumber: request.phone_number
-    }); 
+    };
+
+    const Message = JSON.stringify(data); 
 
     logger.info('Sending message to SNS', { Message })
 
     await publishToSNS(Message);
 
     return formatJSONResponse({
-      'message': 'Order process',
-      event
+      'message': 'Order process successfully',
+      ...data
     });
   } catch (error) {
     logger.error('Error occured', { error })
