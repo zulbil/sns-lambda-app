@@ -2,5 +2,5 @@
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"name\": \"Frederic\"}"
+  "body": "{\"name\": \"I Phone 13 Pro\", \"status\": \"PAID\", \"price\": 44, \"phone_number\": \"8327389783\", \"email\": \"joelalexandrekhang@gmail.com\"}"
 }
