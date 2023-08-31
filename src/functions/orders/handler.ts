@@ -51,7 +51,7 @@ export const notify = async (event: SNSEvent): Promise<void> => {
 
     await publishToSNS(`Your order status : ${orderStatus}`)
 
-    logger.info('SMS notiffication sent successfully');
+    logger.info('SMS notification sent successfully');
     
   } catch (error) {
     logger.error('Error occured', { error }) 
