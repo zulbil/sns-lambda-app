@@ -54,7 +54,7 @@ export const notify = async (event: SNSEvent): Promise<void> => {
     logger.info('SMS notification sent successfully');
     
   } catch (error) {
-    logger.error('Error occured', { error }) 
+    logger.error('Error occured', { message : error.message }) 
   }
 };
 
